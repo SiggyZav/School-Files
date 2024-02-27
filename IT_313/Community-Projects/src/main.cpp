@@ -1,22 +1,23 @@
 #include <Arduino.h>
 
-const int HalPin = 5;
-const int TempPin = 7;
+int val = 0;  // variable to store hall sensor measurement
+const int halPin = 5;
 #define LED 2
 
-void setup() {
-  // put your setup code here, to run once:
-  pinMode(HalPin, INPUT);
-  pinMode(TempPin, INPUT);
-  pinMode(LED, OUTPUT);
+void magnet_detect() {
+    Serial.println("Detect");
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-  float mag = digitalRead(HalPin);
-  float temp = digitalRead(TempPin);
-  digitalWrite(LED, LOW);
-  if (mag == HIGH) {
-    digitalWrite(LED, HIGH);
-  }
+void setup() {
+    Serial.begin(500000);
+    while(Serial.available());
+    pinMode(halPin, INPUT);
+    pinMode(LED, OUTPUT);
+    attachInterrupt(halPin, magnet_detect, RISING);
+}
+
+void loop() {  // Put your main code here to run repeatedly
+    delay(1000);
+    digitalWrite(LED, LOW);
+    int val = digitalRead(halPin);  // variable to store value of hall sensor
 }
